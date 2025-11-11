@@ -1,0 +1,79 @@
+:root{
+  --accent:#8b6b3b;
+  --accent-2:#b8915c;
+  --bg:#f9f7f5;
+  --text:#2a1f14;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Playfair Display', serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;}
+.navbar{background:#fff;border-bottom:1px solid #e6e0da;position:sticky;top:0;z-index:40;padding:12px 0;}
+.brand{display:flex;align-items:center;gap:12px}
+.monogram{width:56px;height:56px;border-radius:8px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:inherit}
+.site-title{font-family:'Cinzel',serif;color:var(--accent);font-size:1.6rem;margin:0}
+.main-nav a{margin-left:18px;text-decoration:none;color:var(--text);font-weight:600}
+.main-nav a:hover{color:var(--accent)}
+
+/* Hero */
+.hero{background:url('https://picsum.photos/seed/fernweh-hero/1600/900') center/cover no-repeat;height:72vh;display:flex;align-items:center;justify-content:center}
+.overlay{background:rgba(0,0,0,0.45);padding:44px;border-radius:6px;text-align:center;color:#fff;max-width:880px}
+.overlay h2{font-size:2.6rem;margin:0 0 12px}
+.overlay p{margin:0 0 18px;font-size:1.05rem}
+.btn{background:var(--accent);color:#fff;padding:10px 18px;border-radius:6px;text-decoration:none;display:inline-block;font-weight:700}
+.btn:hover{background:var(--accent-2)}
+
+/* Sections */
+.section-title{text-align:center;font-size:1.9rem;margin:44px 0 12px}
+.places-grid,.packages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:1200px;margin:20px auto;padding:0 20px}
+
+.card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 6px 20px rgba(29,20,12,0.06);cursor:pointer;transition:transform .25s ease}
+.card:hover{transform:translateY(-6px)}
+.card img{width:100%;height:180px;object-fit:cover;display:block}
+.card-content{padding:14px}
+.card-content h3{margin:0 0 8px;font-size:1.1rem}
+.card-content p{margin:0;color:#4a4238}
+
+/* Video carousel (fixed-width slide behavior) */
+.video-carousel{max-width:1100px;margin:20px auto}
+.carousel-container{position:relative;display:flex;align-items:center;width:100%;overflow:hidden}
+.carousel{display:flex;overflow:hidden;width:100%;transition:transform 0.5s ease;will-change:transform}
+.video-slide{flex:0 0 100%;max-width:100%;height:420px;background:#000;display:flex;align-items:center;justify-content:center}
+.video-slide iframe{width:100%;height:100%;border:0;display:block}
+
+/* nav buttons */
+.prev,.next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.85);border:none;cursor:pointer;font-size:22px;padding:8px 12px;border-radius:6px;color:var(--text);z-index:10}
+.prev{left:8px}.next{right:8px}
+
+/* Modal */
+.modal.hidden{display:none}
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(12,12,12,0.55);z-index:60;padding:30px}
+.modal-content{background:#fff;width:100%;max-width:1000px;border-radius:10px;overflow:hidden;position:relative;box-shadow:0 12px 40px rgba(12,12,12,0.35)}
+.modal-close{position:absolute;top:12px;right:12px;border:none;background:transparent;font-size:28px;cursor:pointer;color:#2a1f14;padding:6px 10px}
+.modal-inner{display:flex;flex-direction:column;outline:0}
+
+/* modal slider */
+.modal-slider{position:relative;background:#111;color:#fff}
+.modal-slider .slide{display:none}
+.modal-slider .slide img{width:100%;height:500px;object-fit:cover;display:block}
+.slider-controls{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;padding:0 12px}
+.slider-btn{background:rgba(255,255,255,0.9);border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-size:18px;color:var(--text)}
+
+/* modal body */
+.modal-body{padding:18px}
+.modal-body h2{margin:0 0 10px;font-size:1.6rem}
+.modal-body p{margin:0 0 12px;color:#4a4238;line-height:1.5}
+
+/* Responsive */
+@media (max-width:640px){
+  .overlay h2{font-size:1.6rem}
+  .video-slide{height:240px}
+  .modal-slider .slide img{height:260px}
+  .modal-body{padding:12px}
+}
