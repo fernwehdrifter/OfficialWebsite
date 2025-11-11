@@ -1,35 +1,97 @@
-// main.js - video carousel + places/packages + modal slider
+// js/main.js
+// Fixed video carousel translation (pixel-based) + modal/slider code.
+// Replace your existing main.js with this file.
+
 document.addEventListener('DOMContentLoaded', () => {
-  /* ----------------- Video carousel (robust) ----------------- */
+  /* ----------------- Video carousel (pixel-accurate translate) ----------------- */
   const carousel = document.getElementById('videoCarousel');
   const videoSlides = carousel ? carousel.querySelectorAll('.video-slide') : [];
   let vCurrent = 0;
 
-  // Ensure carousel element has transition (in case CSS was overridden)
+  // Ensure carousel has proper transition
   if (carousel) {
     carousel.style.transition = carousel.style.transition || 'transform 0.5s ease';
     carousel.style.willChange = 'transform';
   }
 
-  function loadVideo(slide) {
-    if (!slide || slide.querySelector('iframe')) return;
+  // Create iframe element for a YouTube URL
+  function createIframe(url) {
     const iframe = document.createElement('iframe');
-    // add ?rel=0 to avoid related videos from other channels
-    iframe.src = slide.dataset.video + '?rel=0';
+    iframe.src = url + (url.includes('?') ? '&rel=0' : '?rel=0');
     iframe.frameBorder = '0';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
     iframe.allowFullscreen = true;
-    slide.appendChild(iframe);
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    return iframe;
   }
 
+  // Attach iframe or fallback message to a slide
+  function attachVideoToSlide(slide) {
+    if (!slide || slide.querySelector('iframe') || slide.querySelector('.video-fallback')) return;
+    const url = slide.dataset.video;
+    if (!url) return;
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'video-wrapper';
+    wrapper.style.width = '100%';
+    wrapper.style.height = '100%';
+    wrapper.style.background = '#000';
+    wrapper.style.display = 'flex';
+    wrapper.style.alignItems = 'center';
+    wrapper.style.justifyContent = 'center';
+    wrapper.style.position = 'relative';
+    slide.appendChild(wrapper);
+
+    const iframe = createIframe(url);
+    let fallbackTimer = setTimeout(() => {
+      if (!iframe.dataset.loaded) {
+        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        const fallback = document.createElement('div');
+        fallback.className = 'video-fallback';
+        fallback.style.color = '#fff';
+        fallback.style.textAlign = 'center';
+        fallback.innerHTML = `
+          <div style="max-width:80%;padding:16px;">
+            <p style="margin:0 0 8px;font-weight:700;">Video cannot be embedded</p>
+            <a href="${url}" target="_blank" style="color:#fff;text-decoration:underline;">Watch on YouTube</a>
+          </div>`;
+        wrapper.appendChild(fallback);
+      }
+    }, 2500);
+
+    iframe.addEventListener('load', () => {
+      iframe.dataset.loaded = '1';
+      clearTimeout(fallbackTimer);
+      const existingFallback = wrapper.querySelector('.video-fallback');
+      if (existingFallback) existingFallback.remove();
+    });
+
+    wrapper.appendChild(iframe);
+  }
+
+  // Preload all slides so navigation is instant and consistent
+  videoSlides.forEach(slide => attachVideoToSlide(slide));
+
+  // Compute pixel width of one visible slide (viewport) — used for translation
+  function slideViewportWidth() {
+    // We translate the carousel itself by multiples of the carousel *container's visible width*.
+    // The carousel's parent (carousel-container) width equals the visible viewport for slides.
+    const container = carousel ? carousel.parentElement : null;
+    if (!container) return window.innerWidth;
+    return container.getBoundingClientRect().width;
+  }
+
+  // Translate using pixels to avoid percentage interpretation pitfalls
   function updateVideoCarousel() {
     if (!carousel) return;
-    const offset = -vCurrent * 100;
-    carousel.style.transform = `translateX(${offset}%)`;
-    loadVideo(videoSlides[vCurrent]);
+    const width = slideViewportWidth();
+    const offsetPx = -vCurrent * width;
+    carousel.style.transform = `translateX(${offsetPx}px)`;
+    // Defensive attach if not present
+    attachVideoToSlide(videoSlides[vCurrent]);
   }
 
-  // next / prev handlers with safe guards
   const nextBtn = document.querySelector('.next');
   const prevBtn = document.querySelector('.prev');
   if (nextBtn) nextBtn.addEventListener('click', () => {
@@ -43,8 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVideoCarousel();
   });
 
-  // init
-  if (videoSlides.length) loadVideo(videoSlides[0]);
+  // Init position and handle resize
+  updateVideoCarousel();
   window.addEventListener('resize', updateVideoCarousel);
 
   /* ----------------- Sample data: places & packages ----------------- */
@@ -76,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   samplePlaces.forEach(p => placesGrid.appendChild(createCard(p, 'place')));
   samplePackages.forEach(p => packagesGrid.appendChild(createCard(p, 'package')));
 
-  /* ----------------- Modal + slider ----------------- */
+  /* ----------------- Modal + slider (unchanged) ----------------- */
   const modalContainer = document.getElementById('modalContainer');
   const modalInner = document.getElementById('modalInner');
   const modalCloseBtn = document.querySelector('.modal-close');
@@ -114,19 +176,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function attachModalHandlers() {
-    // controls
     const prevBtn = modalInner.querySelector('#sliderPrev');
     const nextBtn = modalInner.querySelector('#sliderNext');
     prevBtn && prevBtn.addEventListener('click', () => showSlide(sliderState.index - 1));
     nextBtn && nextBtn.addEventListener('click', () => showSlide(sliderState.index + 1));
 
-    // overlay click closes when clicked outside modal-content
     modalContainer.addEventListener('click', overlayClick);
-
-    // keyboard events
     document.addEventListener('keydown', keyHandler);
 
-    // swipe support
     const slider = modalInner.querySelector('#modalSlider');
     if (slider) {
       let startX = 0, endX = 0;
@@ -153,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
     modalContainer.classList.add('hidden');
     modalContainer.setAttribute('aria-hidden', 'true');
     modalInner.innerHTML = '';
-    // cleanup
     modalContainer.removeEventListener('click', overlayClick);
     document.removeEventListener('keydown', keyHandler);
   }
@@ -174,5 +230,4 @@ document.addEventListener('DOMContentLoaded', () => {
     const active = modalInner.querySelector(`.slide[data-idx="${sliderState.index}"]`);
     if (active) active.style.display = 'block';
   }
-
 });
