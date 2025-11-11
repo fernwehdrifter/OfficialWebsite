@@ -1,14 +1,14 @@
-// main.js — final corrected version
-// Fix: pixel-based translation using carousel container width, not carousel total width
+// main.js — carousel fix with proper slide width calculation
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ----------------- Video Carousel ----------------- */
   const carousel = document.getElementById('videoCarousel');
+  const carouselContainer = document.querySelector('.carousel-container');
   const slides = carousel ? carousel.querySelectorAll('.video-slide') : [];
   let current = 0;
 
   // Load iframe for each slide
-  slides.forEach(slide => {
+  slides.forEach((slide, index) => {
     const url = slide.dataset.video;
     if (url) {
       const iframe = document.createElement('iframe');
@@ -23,27 +23,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Core translation logic
+  // Core translation logic - get the actual slide width
   function slideTo(index) {
-    if (!carousel) return;
-    const container = carousel.parentElement; // visible frame width
-    const viewportWidth = container.getBoundingClientRect().width;
-    current = (index + slides.length) % slides.length; // wrap around
-    carousel.style.transform = `translateX(${-current * viewportWidth}px)`;
+    if (!carousel || slides.length === 0) return;
+    
+    // Get the width of a single slide (they should all be the same)
+    const slideWidth = slides[0].offsetWidth;
+    
+    // Ensure index wraps around
+    current = ((index % slides.length) + slides.length) % slides.length;
+    
+    // Apply transform
+    carousel.style.transform = `translateX(-${current * slideWidth}px)`;
+    
+    console.log(`Sliding to index ${current}, slideWidth: ${slideWidth}px, transform: -${current * slideWidth}px`);
   }
 
   // Buttons
   const nextBtn = document.querySelector('.next');
   const prevBtn = document.querySelector('.prev');
 
-  nextBtn?.addEventListener('click', () => slideTo(current + 1));
-  prevBtn?.addEventListener('click', () => slideTo(current - 1));
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      console.log('Next clicked, current:', current);
+      slideTo(current + 1);
+    });
+  }
+  
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      console.log('Prev clicked, current:', current);
+      slideTo(current - 1);
+    });
+  }
 
-  // On resize, keep alignment perfect
-  window.addEventListener('resize', () => slideTo(current));
+  // On resize, recalculate and maintain current position
+  window.addEventListener('resize', () => {
+    slideTo(current);
+  });
 
-  // Initialize
-  slideTo(0);
+  // Initialize after a small delay to ensure layout is complete
+  setTimeout(() => {
+    slideTo(0);
+  }, 100);
 
   /* ----------------- Sample Data ----------------- */
   const samplePlaces = [
