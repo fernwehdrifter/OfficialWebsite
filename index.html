@@ -3,15 +3,126 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Fernweh Drifter — Travel Beyond Ordinary</title>
+  
+  <!-- Primary Meta Tags -->
+  <title>Fernweh Drifter — Luxury Travel Experiences & Curated Stays | Travel Beyond Ordinary</title>
+  <meta name="title" content="Fernweh Drifter — Luxury Travel Experiences & Curated Stays" />
+  <meta name="description" content="Discover luxury travel destinations, curated homestays, and exclusive travel packages. From Himalayan retreats to Goa beachfronts - experience travel beyond the ordinary with Fernweh Drifter." />
+  <meta name="keywords" content="luxury travel, travel packages, homestays, Himalayan retreat, Goa beach, Rajasthan haveli, Kerala backwaters, travel destinations, curated stays, travel experiences" />
+  <meta name="author" content="Fernweh Drifter" />
+  <meta name="robots" content="index, follow" />
+  <meta name="language" content="English" />
+  <meta name="revisit-after" content="7 days" />
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.fernwehdrifter.com/" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.fernwehdrifter.com/" />
+  <meta property="og:title" content="Fernweh Drifter — Luxury Travel Experiences & Curated Stays" />
+  <meta property="og:description" content="Discover luxury travel destinations, curated homestays, and exclusive travel packages. Experience travel beyond the ordinary." />
+  <meta property="og:image" content="https://www.fernwehdrifter.com/images/og-image.jpg" />
+  <meta property="og:site_name" content="Fernweh Drifter" />
+  <meta property="og:locale" content="en_US" />
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://www.fernwehdrifter.com/" />
+  <meta property="twitter:title" content="Fernweh Drifter — Luxury Travel Experiences & Curated Stays" />
+  <meta property="twitter:description" content="Discover luxury travel destinations, curated homestays, and exclusive travel packages. Experience travel beyond the ordinary." />
+  <meta property="twitter:image" content="https://www.fernwehdrifter.com/images/twitter-image.jpg" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  
+  <!-- Preconnect to external domains -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://picsum.photos" />
+  <link rel="preconnect" href="https://www.youtube.com" />
 
   <!-- Royal fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
+  
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Fernweh Drifter",
+    "description": "Luxury travel experiences, curated homestays, and exclusive travel packages for the modern wanderer.",
+    "url": "https://www.fernwehdrifter.com",
+    "logo": "https://www.fernwehdrifter.com/images/logo.png",
+    "image": "https://www.fernwehdrifter.com/images/og-image.jpg",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN"
+    },
+    "sameAs": [
+      "https://www.facebook.com/fernwehdrifter",
+      "https://www.instagram.com/fernwehdrifter",
+      "https://twitter.com/fernwehdrifter"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Travel Packages",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "TouristTrip",
+            "name": "Royal Rajasthan",
+            "description": "7 days of regal desert charm — forts, palaces & private safaris.",
+            "touristType": "Luxury Travelers"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "TouristTrip",
+            "name": "Kerala Backwaters",
+            "description": "Houseboat experience, spice plantation visit, and Ayurveda relaxation.",
+            "touristType": "Luxury Travelers"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "TouristTrip",
+            "name": "Himalayan Wellness",
+            "description": "Yoga, meditation and mountain walks with homestay hospitality.",
+            "touristType": "Wellness Travelers"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Fernweh Drifter",
+    "url": "https://www.fernwehdrifter.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.fernwehdrifter.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
-  <header class="navbar">
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  
+  <header class="navbar" role="banner">
     <div class="container">
       <div class="brand">
         <div class="monogram" aria-hidden="true">FD</div>
@@ -37,7 +148,7 @@
           <img src="images/videos-icon.svg" alt="" class="nav-icon">
           <span>Videos</span>
         </a>
-        <a href="about.html">
+        <a href="html/about.html">
           <img src="images/about-icon.svg" alt="" class="nav-icon">
           <span>About</span>
         </a>
@@ -45,7 +156,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content" role="main">
     <section class="hero" role="img" aria-label="Scenic hero background">
       <div class="overlay">
         <h2>Travel Beyond the Ordinary</h2>
